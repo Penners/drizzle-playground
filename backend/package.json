@@ -1,0 +1,41 @@
+{
+  "name": "drizzle-playground",
+  "version": "1.0.0",
+  "description": "express project to play around with drizzle orm",
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "migrate:generate": "drizzle-kit generate:sqlite",
+    "migrate:check": "drizzle-kit check:sqlite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Penners/drizzle-playground.git"
+  },
+  "author": "Penners",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Penners/drizzle-playground/issues"
+  },
+  "homepage": "https://github.com/Penners/drizzle-playground#readme",
+  "dependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@types/express": "^4.17.17",
+    "better-sqlite3": "^8.5.0",
+    "cors": "^2.8.5",
+    "drizzle-orm": "^0.27.2",
+    "drizzle-zod": "^0.4.3",
+    "express": "^4.18.2",
+    "sanitize-html": "^2.10.0",
+    "socket.io": "^4.7.2",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/sanitize-html": "^2.9.0",
+    "drizzle-kit": "^0.19.12",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.3"
+  }
+}

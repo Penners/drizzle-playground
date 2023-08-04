@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1691109999156,
+      "tag": "0000_last_red_skull",
+      "breakpoints": true
+    }
+  ]
+}
