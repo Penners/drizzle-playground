@@ -3,25 +3,24 @@ import { socket } from "./socket";
 import { Virtuoso } from "react-virtuoso";
 import AutoSizer from "react-virtualized-auto-sizer";
 
+interface Message {
+  id: number;
+  body: string;
+  userHandle: string;
+  createdAt: string;
+}
+
 function App() {
   const [userInput, setUserInput] = useState<string>("");
+
+  const [chatInput, setChatInput] = useState<string>();
   const [user, setUser] = useState<string>();
-  const [messages, setMessages] = useState<
-    {
-      id: number;
-      body: string;
-      userHandle: string;
-      createdAt: string;
-    }[]
-  >([]);
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  console.log(chatInput);
 
   useEffect(() => {
-    const addMessage = (message: {
-      id: number;
-      body: string;
-      userHandle: string;
-      createdAt: string;
-    }) => {
+    const addMessage = (message: Message) => {
       setMessages((prev) => [...prev, message]);
     };
 
@@ -79,7 +78,6 @@ function App() {
           <div className="flex-1">
             <AutoSizer>
               {({ height, width }) => {
-                console.log(height, width);
                 return (
                   <>
                     <Virtuoso
@@ -88,7 +86,13 @@ function App() {
                       followOutput={"auto"}
                       itemContent={(index, message) => {
                         return (
-                          <div className="p-2 chat chat-start">
+                          <div
+                            className={`p-2 chat ${
+                              message.userHandle === user
+                                ? "chat-end mr-auto"
+                                : "chat-start"
+                            }`}
+                          >
                             <div className="chat-header mb-1">
                               {message.userHandle}
                               <time className="text-xs opacity-50">
@@ -98,7 +102,15 @@ function App() {
                                 ).toLocaleTimeString()}
                               </time>
                             </div>
-                            <div className="chat-bubble">{message.body}</div>
+                            <div
+                              className={`chat-bubble ${
+                                message.userHandle === user
+                                  ? "chat-bubble-primary"
+                                  : ""
+                              }`}
+                            >
+                              {message.body}
+                            </div>
                           </div>
                         );
                       }}
@@ -109,13 +121,26 @@ function App() {
             </AutoSizer>
           </div>
           <div className="p-2">
-            <div className="join w-full">
+            <form
+              className="join w-full"
+              onSubmit={(e) => {
+                e.preventDefault();
+
+                socket.emit("message:send", {
+                  body: chatInput,
+                  userHandle: user,
+                });
+                setChatInput("");
+              }}
+            >
               <textarea
                 className="textarea textarea-bordered w-full mr-2"
                 placeholder="Message"
+                value={chatInput}
+                onChange={(e) => setChatInput(e.currentTarget.value)}
               ></textarea>
               <button className="btn btn-primary h-auto">Send</button>
-            </div>
+            </form>
           </div>
         </div>
       )}

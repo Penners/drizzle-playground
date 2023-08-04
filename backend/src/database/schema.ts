@@ -1,4 +1,5 @@
 import { InferModel, sql } from "drizzle-orm";
+import { z } from "zod";
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { createInsertSchema } from "drizzle-zod";
 import sanitize from "sanitize-html";
@@ -22,3 +23,4 @@ export const insertMessageSchema = createInsertSchema(messages).transform(
 );
 
 export type Message = InferModel<typeof messages>;
+export type CreateMessage = z.infer<typeof insertMessageSchema>;
